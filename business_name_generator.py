@@ -17,7 +17,7 @@ def generate_business_names(business_type, target_audience, branding_tone, keywo
     )
 
     # New method for the updated API (v1.0.0 and beyond)
-    response = openai.Completion.create(
+    response = openai.chat.completions.create(
         model="text-davinci-003",  # Specify the model you want to use
         prompt=prompt,
         max_tokens=200,  # Limit the token count to get a concise response
