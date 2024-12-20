@@ -16,7 +16,7 @@ def generate_business_names(business_type, target_audience, branding_tone, keywo
         f"Include the following keywords: {keywords}. Each name should be no more than {max_words} words long. "
         "Provide only the names, separated by commas."
     )
-    response = openai.ChatCompletion.create(
+    response = openai.Completion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=200
