@@ -2,10 +2,9 @@ import streamlit as st
 import openai
 import os
 
-# Set your OpenAI API key
+# Set your OpenAI API key (from environment variables)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Function to generate business names
 def generate_business_names(business_type, target_audience, branding_tone, keywords, max_words, num_names):
     """
     Generates business names based on user input with a strict word limit.
@@ -16,13 +15,17 @@ def generate_business_names(business_type, target_audience, branding_tone, keywo
         f"Include the following keywords: {keywords}. Each name should be no more than {max_words} words long. "
         "Provide only the names, separated by commas."
     )
+
+    # New method for the updated API (v1.0.0 and beyond)
     response = openai.Completion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=200
+        model="text-davinci-003",  # Specify the model you want to use
+        prompt=prompt,
+        max_tokens=200,  # Limit the token count to get a concise response
+        temperature=0.7  # Adjust the creativity of the response
     )
-    names = response['choices'][0]['message']['content']
-    # Parse and filter names to ensure word limit
+
+    # Parse the response and filter names based on word count
+    names = response['choices'][0]['text'].strip()  # Get the names
     filtered_names = [name.strip() for name in names.split(",") if len(name.split()) <= max_words]
     return filtered_names
 
